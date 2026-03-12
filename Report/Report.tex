@@ -1,0 +1,208 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Multi-RAG Legal Intelligence}
+\rhead{Technical Report}
+\cfoot{\thepage}
+
+% Spacing
+\setstretch{1.4}
+
+\title{\textbf{Multi-RAG Model for Legal Document Intelligence}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\textbf{Abstract}
+\end{center}
+
+The project proposes a Multi-RAG (Retrieval-Augmented Generation) based legal intelligence system designed to improve legal information retrieval and answer generation. Legal documents such as statutes, case laws, contracts, and regulations are complex, lengthy, and distributed across multiple sources, making manual legal research difficult and time-consuming.
+
+Traditional keyword-based legal search systems often fail to capture semantic meaning, while standalone Large Language Models (LLMs) may generate hallucinated or unreliable legal responses.
+
+To address these limitations, the proposed system uses multiple retrieval pipelines over domain-specific legal knowledge bases. Separate vector databases are created for statutes, case law, and contracts. User queries are converted into semantic embeddings, retrieved from multiple databases, and fused before being passed to a Large Language Model for grounded answer generation. The system aims to improve retrieval precision, reduce hallucination, and provide reliable legal assistance.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Legal information retrieval is one of the most challenging tasks in modern information systems because legal documents contain highly specialized language, long contextual dependencies, and complex references across multiple legal sources.
+
+Lawyers and researchers often spend significant time searching statutes, judgments, and legal commentary before arriving at a conclusion.
+
+Recent developments in Generative AI and Large Language Models have shown strong capabilities in natural language understanding and generation. However, legal applications require factual accuracy, explainability, and domain grounding, which cannot be guaranteed by standalone language models.
+
+Retrieval-Augmented Generation (RAG) offers a solution by combining retrieval systems with language models. However, a single RAG pipeline is often insufficient for legal data because legal knowledge is distributed across multiple structured domains. Therefore, this project proposes a Multi-RAG architecture for legal intelligence.
+
+\section{Problem Statement}
+
+Legal knowledge exists across heterogeneous sources such as statutes, judicial precedents, contracts, and legal regulations. Traditional keyword-based retrieval systems require manual filtering and often fail to capture semantic relationships between legal concepts.
+
+Standalone LLMs face several limitations in legal applications including hallucination of legal facts, lack of access to external legal corpora, and inability to provide source-grounded responses.
+
+A single RAG model stores all legal documents in one vector space, which may introduce retrieval noise and reduce accuracy. Since legal queries often require cross-referencing multiple legal domains, a domain-separated retrieval system becomes necessary.
+
+\section{Objectives}
+
+\begin{itemize}
+\item Design a legal question-answering system using Multi-RAG architecture
+\item Improve retrieval precision across multiple legal domains
+\item Reduce hallucination in AI-generated legal responses
+\item Provide context-aware and explainable legal answers
+\end{itemize}
+
+\section{Literature Review}
+
+Traditional legal search systems rely on keyword-based indexing, which is effective only when exact terms are known. Modern semantic search systems improve retrieval by using vector embeddings.
+
+Retrieval-Augmented Generation has become popular in knowledge-grounded AI systems because it allows language models to answer using retrieved external context. However, single RAG systems struggle in legal domains because they mix heterogeneous legal documents in one vector space.
+
+Recent studies suggest that domain-specific retrieval improves factual grounding and answer quality, motivating the use of Multi-RAG architectures.
+
+\section{Proposed Methodology}
+
+\subsection{Data Collection}
+
+Legal documents are collected from multiple sources including statutes and acts, case law and judgments, and contracts and legal documents.
+
+\subsection{Text Preprocessing}
+
+Documents are cleaned and normalized to remove formatting noise while preserving section titles and metadata.
+
+\subsection{Text Chunking}
+
+Long legal documents are divided into smaller overlapping chunks to preserve context during retrieval.
+
+Example:
+
+Chunk size – 500 tokens
+
+Overlap – 50 tokens
+
+\subsection{Embedding Generation}
+
+Each chunk is converted into semantic vectors using embedding models.
+
+\subsection{Multiple Vector Databases}
+
+Separate vector databases are created for statutes, case law, and contracts.
+
+\subsection{Multi Retrieval}
+
+User queries are sent to multiple retrievers simultaneously.
+
+\subsection{Context Fusion}
+
+Retrieved contexts from all retrievers are merged together.
+
+\subsection{LLM Generation}
+
+The fused context is passed to a Large Language Model to generate the final answer.
+
+\section{System Architecture}
+
+User Query → Embedding → Multi-Retriever → Multiple Vector Databases → Context Fusion → LLM Generator → Final Response
+
+\section{Core Technologies Used}
+
+Multi-RAG: Multiple retrieval pipelines for domain-specific legal retrieval.
+
+Text Chunking: Breaking legal documents into searchable units.
+
+Embedding Model: Converting text into semantic vectors.
+
+Vector Database: Storing embeddings for similarity search.
+
+Retriever: Fetching relevant legal chunks.
+
+LLM Generator: Generating grounded legal answers.
+
+\section{Why Multi-RAG Instead of Single RAG}
+
+\subsection*{Single RAG}
+
+\begin{itemize}
+\item One mixed database
+\item Noisy retrieval
+\item Limited legal reasoning
+\end{itemize}
+
+\subsection*{Multi-RAG}
+
+\begin{itemize}
+\item Multiple domain-specific databases
+\item Focused retrieval
+\item Better cross-domain reasoning
+\end{itemize}
+
+\section{Technology Stack}
+
+\begin{itemize}
+\item Python
+\item LangChain
+\item Supabase / FAISS / Chroma / Pinecone
+\item HuggingFace Embeddings / OpenAI Embeddings
+\item GPT / LLaMA / Gemini
+\end{itemize}
+
+\section{Expected Results}
+
+\begin{itemize}
+\item Accurate legal responses generated using retrieved domain-specific context.
+\item Reduced hallucination compared to standalone language models.
+\item Improved retrieval quality through domain-specific vector databases.
+\item Domain-grounded legal answers supported by retrieved legal sources.
+\end{itemize}
+
+\section{Advantages}
+
+\begin{itemize}
+\item Higher retrieval precision through domain-separated knowledge bases.
+\item Improved organization of legal information across statutes, case law, and contracts.
+\item Better explainability since responses are generated from retrieved context.
+\item Scalable architecture capable of supporting large legal document collections.
+\end{itemize}
+
+\section{Limitations}
+
+\begin{itemize}
+\item System performance depends on the quality and completeness of the legal corpus.
+\item Retrieval accuracy is influenced by the embedding model used.
+\item Large Language Models may still generate partially incomplete reasoning in complex legal scenarios.
+\end{itemize}
+
+\section{Future Scope}
+
+\begin{itemize}
+\item Citation Generation: Future versions can provide source references such as legal sections, case names, or document citations along with generated answers to improve trust and traceability.
+\item Hybrid Retrieval Methods: Combining semantic search with keyword-based retrieval can improve precision, especially for exact legal terms, section numbers, and statutory references.
+\item Legal-Specific Fine-Tuning: Fine-tuning language models on legal datasets can improve understanding of legal terminology, reasoning, and response quality.
+\item Real-Time Legal Database Integration: Integrating live legal databases can enable access to updated judgments, amendments, and current legal information for more reliable responses.
+\end{itemize}
+
+\section{Conclusion}
+
+The project demonstrates how Multi-RAG architectures can improve legal information retrieval by combining domain-specific retrieval systems with Large Language Models. By separating legal sources and grounding responses in retrieved context, the system aims to deliver more accurate, reliable, and explainable legal AI assistance.
+
+\end{document}
